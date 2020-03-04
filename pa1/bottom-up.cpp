@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
             std::cout << "Usage: program1 <filex.txt> <filey.txt> <output1.txt>" << std::endl;
         }
         else {
-            std::cout << "Top-down dynamic programming (with memoization)." << std::endl;
+            std::cout << "Bottom-up dynamic programming (with no memoization)." << std::endl;
             auto x_path = argv[1];
             auto y_path = argv[2];
             auto output_path = argv[3];
