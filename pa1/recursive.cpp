@@ -38,7 +38,8 @@ int main(int argc, char** argv) {
             std::getline(x, x_sequence);
             std::string y_sequence;
             std::getline(y, y_sequence);
-
+            std::ofstream output(output_path);
+            //output <<
             if(x_sequence.size() > 10 || y_sequence.size() > 10) {
                 //std::cout << "Error: Sequences must be of length 10 or less." << std::endl;
                 //exit(1);
@@ -47,16 +48,20 @@ int main(int argc, char** argv) {
                 std::cout << "Y: <" << y_sequence << ">\n";
                 auto start = std::chrono::high_resolution_clock::now();
                 auto lcs = recursive_lcs(x_sequence, y_sequence, x_sequence.size(), y_sequence.size());
-                std::cout << "LCS length: " << lcs << std::endl;
+                //std::cout << "LCS length: " << lcs << std::endl;
+                output << lcs << std::endl;
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                std::cout << "Execution time: " << duration.count() << " microseconds" << std::endl;
+                //std::cout << "Execution time: " << duration.count() << " microseconds" << std::endl;
+                output << duration.count();
             }
             else {
                 std::cout << "X: <" << x_sequence << ">\n";
                 std::cout << "Y: <" << y_sequence << ">\n";
+                for(size_t i = 0; i < x_sequence.size(); i++) {
+                    //TODO: print n*m matrix of LCS lengths
+                }
             }
-            std::ofstream output(output_path);
         }
         return 0;
 }
