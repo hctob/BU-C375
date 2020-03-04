@@ -22,7 +22,7 @@ auto recursive_lcs(std::string x, std::string y, size_t m, size_t n) {
 
 int main(int argc, char** argv) {
         if(argc < 4 || argc > 4) {
-            std::cout << "Usage: program1 <filex.txt> <filey.txt> <output1.txt>" << std::endl;
+            std::cout << "Usage: program2 <filex.txt> <filey.txt> <output1.txt>" << std::endl;
         }
         else {
             std::cout << "Recursive LCS Approach: " << std::endl;

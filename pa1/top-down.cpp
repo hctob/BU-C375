@@ -8,12 +8,24 @@
 ** top-down dynamic programming approach with memoization
 */
 
+const int MAXIMUM_LENGTH = 100;
+
+auto top_down_lcs(std::string x, std::string y, size_t m, size_t n, int dp[][MAXIMUM_LENGTH]) {
+    if(n == 0 || m == 0) return 0; //recusive base case
+
+    //cached value - if it exists, do not perform a recursive call
+
+    //otherwise, no previously computed LCS, so should do a recursive call to generate LCS(m, n)
+    
+
+}
+
 int main(int argc, char** argv) {
         if(argc < 4 || argc > 4) {
-            std::cout << "Usage: program1 <filex.txt> <filey.txt> <output1.txt>" << std::endl;
+            std::cout << "Usage: program3 <filex.txt> <filey.txt> <output1.txt>" << std::endl;
         }
         else {
-            std::cout << "Top-down dynamic programming (with memoization)." << std::endl;
+            std::cout << "Top-down Memoization Approach: " << std::endl;
             auto x_path = argv[1];
             auto y_path = argv[2];
             auto output_path = argv[3];
@@ -26,19 +38,18 @@ int main(int argc, char** argv) {
             std::getline(x, x_sequence);
             std::string y_sequence;
             std::getline(y, y_sequence);
-
-            if(x_sequence.size() > 10 || y_sequence.size() > 10) {
-                //std::cout << "Error: Sequences must be of length 10 or less." << std::endl;
-                //exit(1);
-                std::cout << "Greater case: " << std::endl;
-                std::cout << "X: <" << x_sequence << ">\n";
-                std::cout << "Y: <" << y_sequence << ">\n";
-            }
-            else {
-                std::cout << "X: <" << x_sequence << ">\n";
-                std::cout << "Y: <" << y_sequence << ">\n";
-            }
             std::ofstream output(output_path);
+
+            std::cout << "X: <" << x_sequence << ">\n";
+            std::cout << "Y: <" << y_sequence << ">\n";
+            auto start = std::chrono::high_resolution_clock::now();
+            auto lcs = recursive_lcs(x_sequence, y_sequence, x_sequence.size(), y_sequence.size());
+            //std::cout << "LCS length: " << lcs << std::endl;
+            output << lcs << std::endl;
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+            //std::cout << "Execution time: " << duration.count() << " microseconds" << std::endl;
+            output << duration.count();
         }
         return 0;
 }
