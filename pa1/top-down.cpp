@@ -13,16 +13,17 @@
 const int MAXIMUM_LENGTH = 100;
 
 auto top_down_lcs(std::string x, std::string y, size_t m, size_t n, std::vector<std::vector<int>>& dp) {
+    //printf("entering function\n");
     if(n == 0 || m == 0) return 0; //recusive base case
-
+    //printf("after base case\n");
     //cached value - if it exists, do not perform a recusive call
-    if(dp[m-1][n-1] != -1) {
-        printf("cached value");
+    if(dp.at(m-1).at(n-1) != -1) {
+        //printf("cached value");
         return dp[m-1][n-1];
     }
     //otherwise, no previously computed LCS, so should do a recursive call to generate LCS(m, n)
     if(x[m-1] == y[n-1]) {
-        printf("calculating new cached value");
+        //printf("calculating new cached value");
         dp[m-1][n-1] = 1 + top_down_lcs(x, y, m-1, n-1, dp);
         return dp[m-1][n-1];
     }
@@ -58,17 +59,21 @@ int main(int argc, char** argv) {
             //int dp[x_sequence.size()][MAXIMUM_LENGTH];
             //memset(dp, -1, sizeof(dp));
             //int** dp = (int**)malloc(sizeof(int) * x_sequence.size() * MAXIMUM_LENGTH);
-            std::vector<std::vector<int>> dp(x_sequence.size());
+            std::vector<std::vector<int>> dp;
+            //std::cout << "Dp: " << dp.size() << std::endl;
             for(auto i = 0; i < (int)x_sequence.size(); i++) {
-                std::vector<int> dp_row(MAXIMUM_LENGTH);
-                for(auto j = 0; j < MAXIMUM_LENGTH; j++) {
-                    dp_row.push_back(-1);
-                }
+                std::vector<int> dp_row(MAXIMUM_LENGTH, -1);
+                //printf("Size of dp row: %u\n", dp_row.size());
                 dp.push_back(dp_row);
+                //std::cout << "dp size: " << dp.size() << std::endl;
             }
-            printf("before");
+            //std::cout << dp[0].size() << std::endl;
+            /*for(int i = 0; i < 100; i++) {
+                std::cout << dp[0].at(i);
+            }*/
+            //printf("before");
             auto lcs = top_down_lcs(x_sequence, y_sequence, x_sequence.size(), y_sequence.size(), dp);
-            printf("after");
+            //printf("after");
             //std::cout << "LCS length: " << lcs << std::endl;
             auto end = std::chrono::high_resolution_clock::now();
             std::ofstream output(output_path);
