@@ -1,8 +1,10 @@
 #include <iostream>
 #include <utility>
 #include <cmath>
+#include <chrono>
+#include <cstring>
 #include <fstream>
-
+#include <vector>
 /*CS375 Programming Assignment #1:
 ** Task 3: Longest common subsequence problem using
 ** top-down dynamic programming approach with memoization
@@ -10,13 +12,24 @@
 
 const int MAXIMUM_LENGTH = 100;
 
-auto top_down_lcs(std::string x, std::string y, size_t m, size_t n, int dp[][MAXIMUM_LENGTH]) {
+auto top_down_lcs(std::string x, std::string y, size_t m, size_t n, std::vector<std::vector<int>>& dp) {
     if(n == 0 || m == 0) return 0; //recusive base case
 
-    //cached value - if it exists, do not perform a recursive call
-
+    //cached value - if it exists, do not perform a recusive call
+    if(dp[m-1][n-1] != -1) {
+        printf("cached value");
+        return dp[m-1][n-1];
+    }
     //otherwise, no previously computed LCS, so should do a recursive call to generate LCS(m, n)
-    
+    if(x[m-1] == y[n-1]) {
+        printf("calculating new cached value");
+        dp[m-1][n-1] = 1 + top_down_lcs(x, y, m-1, n-1, dp);
+        return dp[m-1][n-1];
+    }
+    else {
+        dp[m-1][n-1] = std::max(top_down_lcs(x, y, m-1, n, dp), top_down_lcs(x, y, m, n-1, dp));
+        return dp[m-1][n-1];
+    }
 
 }
 
@@ -38,15 +51,28 @@ int main(int argc, char** argv) {
             std::getline(x, x_sequence);
             std::string y_sequence;
             std::getline(y, y_sequence);
-            std::ofstream output(output_path);
 
             std::cout << "X: <" << x_sequence << ">\n";
             std::cout << "Y: <" << y_sequence << ">\n";
             auto start = std::chrono::high_resolution_clock::now();
-            auto lcs = recursive_lcs(x_sequence, y_sequence, x_sequence.size(), y_sequence.size());
+            //int dp[x_sequence.size()][MAXIMUM_LENGTH];
+            //memset(dp, -1, sizeof(dp));
+            //int** dp = (int**)malloc(sizeof(int) * x_sequence.size() * MAXIMUM_LENGTH);
+            std::vector<std::vector<int>> dp(x_sequence.size());
+            for(auto i = 0; i < (int)x_sequence.size(); i++) {
+                std::vector<int> dp_row(MAXIMUM_LENGTH);
+                for(auto j = 0; j < MAXIMUM_LENGTH; j++) {
+                    dp_row.push_back(-1);
+                }
+                dp.push_back(dp_row);
+            }
+            printf("before");
+            auto lcs = top_down_lcs(x_sequence, y_sequence, x_sequence.size(), y_sequence.size(), dp);
+            printf("after");
             //std::cout << "LCS length: " << lcs << std::endl;
-            output << lcs << std::endl;
             auto end = std::chrono::high_resolution_clock::now();
+            std::ofstream output(output_path);
+            output << lcs << std::endl;
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
             //std::cout << "Execution time: " << duration.count() << " microseconds" << std::endl;
             output << duration.count();
