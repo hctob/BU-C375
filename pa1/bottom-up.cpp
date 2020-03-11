@@ -7,7 +7,24 @@
 ** bottom-up dynamic programming approach
 */
 
+auto bottom_up_lcs(std::string x, std::string y, size_t m, size_t n) {
+    std::vector<std::vector<int>> dp(n, std::vector<int>(m, 0));
+    for(size_t i = 0; i < n; i++) {
+        for(size_t j = 0; j < m; j++) {
+            if(i == 0 || j == 0) {
+                if(i == 0 && j == 0) {
+                    dp[i][j] = 0;
+                }
+                else if (i == 0){
+                    dp[i][j] = y[]
+                }
+                else if (j == 0) {
 
+                }
+            }
+        }
+    }
+}
 
 int main(int argc, char** argv) {
         if(argc < 4 || argc > 4) {
