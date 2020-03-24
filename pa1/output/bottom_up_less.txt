@@ -1,0 +1,10 @@
+lenLCS[0]: 0 0 0 0 0 0 0
+lenLCS[1]: 0 0 0 0 1 1 1
+lenLCS[2]: 0 1 1 1 1 2 2
+lenLCS[3]: 0 1 1 2 2 2 2
+lenLCS[4]: 0 1 1 2 2 3 3
+lenLCS[5]: 0 1 2 2 2 3 3
+lenLCS[6]: 0 1 2 2 3 3 4
+lenLCS[7]: 0 1 2 2 3 4 4
+4
+997 ms

@@ -10,7 +10,7 @@
 ** bottom-up dynamic programming approach
 */
 
-auto bottom_up_lcs(std::string x, std::string y, size_t m, size_t n) {
+auto bottom_up_lcs(std::vector<std::vector<int>>& lenLCS, std::string x, std::string y, size_t m, size_t n) {
     std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
     /*int** dp = (int**)malloc(sizeof(int*) * m * n * sizeof(int));*/
     for(size_t i = 1; i <= m; i++) {
@@ -24,6 +24,7 @@ auto bottom_up_lcs(std::string x, std::string y, size_t m, size_t n) {
             }
         }
     }
+    lenLCS = dp;
     return dp[m][n];
 }
 
@@ -54,33 +55,48 @@ int main(int argc, char** argv) {
                 std::cout << "Y: <" << y_sequence << ">\n";
                 std::ofstream output(output_path);
                 //auto start = std::chrono::high_resolution_clock::now();
-                auto longest = INT_MIN;
                 auto big_start = std::chrono::high_resolution_clock::now();
+                std::vector<std::vector<int>> dp;
+                //std::cout << "Dp: " << dp.size() << std::endl;
+                for(auto i = 0; i < (int)x_sequence.size(); i++) {
+                    std::vector<int> dp_row(y_sequence.size(), -1);
+                    //printf("Size of dp row: %u\n", dp_row.size());
+                    dp.push_back(dp_row);
+                    //std::cout << "dp size: " << dp.size() << std::endl;
+                }
+                //std::cout << "Made dp matrix" << std::endl;
+                auto longest = bottom_up_lcs(dp, x_sequence, y_sequence, x_sequence.size(), y_sequence.size());
+                //std::cout << "Made dp matrix" << std::endl;
                 for(size_t i = 0; i <= x_sequence.size(); i++) {
+                    output << "lenLCS[" << i << "]: ";
                     for(size_t j = 0; j <= y_sequence.size(); j++) {
-                        auto start = std::chrono::high_resolution_clock::now();
-                        auto lcs = bottom_up_lcs(x_sequence, y_sequence, i, j);
-                        longest = std::max(longest, lcs);
-                        auto end = std::chrono::high_resolution_clock::now();
-                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                        output << "lcs[" << i << "][" << j << "]: " << lcs << ", duration = " << duration.count() << std::endl;
+                        output << dp[i][j] << " ";
                     }
+                    output << std::endl;
 
                 }
                 auto big_end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::microseconds>(big_end - big_start);
-                output << longest << std::endl << duration.count();
+                output << longest << std::endl << duration.count() << " ms";
             }
             else {
                 std::cout << "X: <" << x_sequence << ">\n";
                 std::cout << "Y: <" << y_sequence << ">\n";
                 auto start = std::chrono::high_resolution_clock::now();
-                auto lcs = bottom_up_lcs(x_sequence, y_sequence, x_sequence.size(), y_sequence.size());
+                std::vector<std::vector<int>> dp;
+                //std::cout << "Dp: " << dp.size() << std::endl;
+                for(auto i = 0; i < (int)x_sequence.size(); i++) {
+                    std::vector<int> dp_row(y_sequence.size(), -1);
+                    //printf("Size of dp row: %u\n", dp_row.size());
+                    dp.push_back(dp_row);
+                    //std::cout << "dp size: " << dp.size() << std::endl;
+                }
+                auto lcs = bottom_up_lcs(dp, x_sequence, y_sequence, x_sequence.size(), y_sequence.size());
                 auto end = std::chrono::high_resolution_clock::now();
                 auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
                 std::ofstream output(output_path);
                 //std::cout << "LCS: " << lcs << std::endl;
-                output << lcs << std::endl << duration.count();
+                output << lcs << std::endl << duration.count() << " ms";
                 //output << duration.count();
             }
         }

@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
             output << lcs << std::endl;
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
             //std::cout << "Execution time: " << duration.count() << " microseconds" << std::endl;
-            output << duration.count();
+            output << duration.count() << " ms";
         }
         return 0;
 }
