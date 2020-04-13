@@ -1,12 +1,13 @@
 #include <iostream>
 #include <chrono>
 #include <random>
+#include <bits/stdc++.h>
 #include <functional>
 
 namespace QS {
 
     int partition(int* arr, size_t start, size_t end) {
-        size_t pivot = arr[end];
+        int pivot = arr[end];
         size_t i = start - 1;
 
         //from the start index to the end index of the partition
@@ -27,7 +28,7 @@ namespace QS {
             //perform quicksort on the left partition
             quicksort(arr, start, p - 1);
             //perform quicksort on the right partition
-            quicksort(arr, p + 1, end);
+            quicksort(arr, p + 1, end - 1);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Driver {
         std::uniform_int_distribution<int> distribution(0, size / 2);
         auto gen_rand = std::bind(distribution, generator);
         //std::vector<int> qs_array(end);
-        int* new_array = new int[size];
+        int* new_array = (int*)malloc(sizeof(int) * size); //new int[size];
         for(size_t i = 0; i < size; i++) {
             new_array[i] = gen_rand();
         }
@@ -40,14 +40,14 @@ namespace Driver {
     void go(std::string type) {
         for(size_t i = 1; i < 8; i++) {
             size_t bound = std::pow(10, i);
-            auto arr = generate_rand_array(bound);
+           // auto arr = generate_rand_array(bound);
 
             //first argument of do-action is the sort you want to test the performance of
             //next arguments are the arguments of the sort function
             if(type == "quicksort") {
                     auto arr = generate_rand_array(bound);
                     auto ret = Driver::do_action(QS::quicksort, arr, 0, bound);
-                    std::cout << "Time to " << type << " array of " << bound << " elements: " << ret << " seconds";
+                    std::cout << "Time to " << type << " array of " << bound << " elements: " << ret << " seconds" << std::endl;
                     free(arr);
             }
         }
