@@ -44,10 +44,12 @@ namespace Driver {
 
             //first argument of do-action is the sort you want to test the performance of
             //next arguments are the arguments of the sort function
-            auto ret = Driver::do_action(QS::quicksort, arr, 0, bound);
-
-            std::cout << "Time to " << type << " array of " << bound << " elements: " << ret << " seconds";
-            free(arr);
+            if(type == "quicksort") {
+                    auto arr = generate_rand_array(bound);
+                    auto ret = Driver::do_action(QS::quicksort, arr, 0, bound);
+                    std::cout << "Time to " << type << " array of " << bound << " elements: " << ret << " seconds";
+                    free(arr);
+            }
         }
     }
 }
